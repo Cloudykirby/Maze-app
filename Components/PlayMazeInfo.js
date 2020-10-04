@@ -9,13 +9,13 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 
-export default function Info() {
+export default function Info({ navigation }) {
   return (
     <View style={styles.input}>
       <Formik
         initialValues={{ xValue: "", yValue: "", theme: "" }}
         onSubmit={(value) => {
-          console.log(value);
+          navigation.navigate("Maze", { value: value });
         }}
       >
         {(props) => (

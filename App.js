@@ -9,6 +9,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import Credits from "./Components/Credits";
+import Maze from "./Components/Maze";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -22,6 +23,7 @@ export default class App extends Component {
           <Stack.Screen name="CreateMazeInfo" component={CreateMazeInfo} />
           <Stack.Screen name="Credits" component={Credits} />
           <Stack.Screen name="PlayMazeGame" component={PlayMazeGame} />
+          <Stack.Screen name="Maze" component={Maze} />
         </Stack.Navigator>
       </NavigationContainer>
       // <View style={styles.container}>
