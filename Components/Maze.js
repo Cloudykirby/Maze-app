@@ -46,37 +46,45 @@ export default class Maze extends Component {
       //   </Text>
       //   <Text>{typeof xValue}</Text>
       // </View>
-      <View>
-        <Grid>
-          {this.state.maze.map((row, key) => {
-            return (
-              <Col key={key}>
-                {row.map((cell, key) => {
-                  return (
-                    <Row
-                      style={{
-                        // If cell is 1(alive) render a color there
-                        backgroundColor: cell.cell == 1 ? "brown" : "blue",
-                        margin: 1,
-                      }}
-                      key={key}
-                    ></Row>
-                  );
-                })}
-              </Col>
-            );
-          })}
-        </Grid>
-      </View>
+      <Grid>
+        <View style={style.container}>
+          <Text>Dimensions</Text>
+          <Text>
+            {xValue}x {yValue}
+          </Text>
+          <Button title="Submit" disabled={true} />
+        </View>
+        {this.state.maze.map((row, key) => {
+          return (
+            <Col key={key}>
+              {row.map((cell, key) => {
+                return (
+                  <Row
+                    style={{
+                      // If cell is 1(alive) render a color there
+                      backgroundColor: cell.cell == 1 ? "#FFB266" : "#00FFFF",
+                      margin: 1,
+                    }}
+                    key={key}
+                  ></Row>
+                );
+              })}
+            </Col>
+          );
+        })}
+      </Grid>
     );
   }
 }
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "row",
-    padding: 2,
+    flexDirection: "column",
+    flexWrap: "wrap",
+    padding: 1,
+    alignItems: "center",
+    width: 80,
+    justifyContent: "center",
   },
   grid: {
     backgroundColor: "pink",
