@@ -16,19 +16,19 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.title}>MAZE</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => Alert.alert("Create Maze Button pressed")}
+          onPress={() => navigation.navigate("CreateMazeInfo")}
         >
           <Text>Create Maze</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => Alert.alert("Play Maze Button pressed")}
+          onPress={() => navigation.navigate("PlayMazeGame")}
         >
           <Text>Play Maze</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => Alert.alert("Credits Button pressed")}
+          onPress={() => navigation.navigate("Credits")}
         >
           <Text>Credits</Text>
         </TouchableOpacity>

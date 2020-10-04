@@ -2,16 +2,32 @@ import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./Components/HomeScreen";
-import Navigator from "./Components/StackNav";
+import CreateMazeInfo from "./Components/PlayMazeInfo";
+import PlayMazeGame from "./Components/PlayMazeGame";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
+import Credits from "./Components/Credits";
+
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 export default class App extends Component {
-  Navigator;
   render() {
     return (
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <HomeScreen />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="CreateMazeInfo" component={CreateMazeInfo} />
+          <Stack.Screen name="Credits" component={Credits} />
+          <Stack.Screen name="PlayMazeGame" component={PlayMazeGame} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      // <View style={styles.container}>
+      //   <StatusBar style="auto" />
+      //   <HomeScreen />
+      // </View>
     );
   }
 }
