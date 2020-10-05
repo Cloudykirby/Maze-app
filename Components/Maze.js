@@ -24,6 +24,20 @@ export default class Maze extends Component {
     this.state = {
       maze: newMaze,
     };
+    this.handlePress = this.handlePress.bind(this);
+  }
+  handlePress(x, y) {
+    let oldState = this.state.maze;
+    let currentPlace = oldState[y][x];
+    if (currentPlace === 1) {
+      oldState[y][x] = 0;
+      console.log(oldState);
+      this.setState({ maze: oldState });
+    } else {
+      oldState[y][x] = 1;
+      console.log(oldState);
+      this.setState({ maze: oldState });
+    }
   }
 
   setUpMaze = () => {
@@ -40,12 +54,6 @@ export default class Maze extends Component {
   };
   render() {
     return (
-      // <View>
-      //   <Text>
-      //     {xValue}x {yValue}
-      //   </Text>
-      //   <Text>{typeof xValue}</Text>
-      // </View>
       <Grid>
         <View style={style.container}>
           <Text>Dimensions</Text>
@@ -54,18 +62,25 @@ export default class Maze extends Component {
           </Text>
           <Button title="Submit" disabled={true} />
         </View>
-        {this.state.maze.map((row, key) => {
+        {this.state.maze.map((row, Colkey) => {
           return (
-            <Col key={key}>
+            <Col key={Colkey}>
               {row.map((cell, key) => {
+                let y = key;
+                let x = Colkey;
                 return (
                   <Row
                     style={{
                       // If cell is 1(alive) render a color there
-                      backgroundColor: cell.cell == 1 ? "#FFB266" : "#00FFFF",
+                      backgroundColor:
+                        this.state.maze[y][x] == 1 ? "#00FFFF" : "#FFB266",
                       margin: 1,
                     }}
                     key={key}
+                    onPress={() => {
+                      console.log("checing cell", cell, "cell.cell", cell.cell);
+                      this.handlePress(x, y);
+                    }}
                   ></Row>
                 );
               })}
@@ -87,7 +102,6 @@ const style = StyleSheet.create({
     justifyContent: "center",
   },
   grid: {
-    backgroundColor: "pink",
     borderColor: "black",
   },
 });
