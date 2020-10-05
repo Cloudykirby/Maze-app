@@ -1,18 +1,11 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Button,
-  View,
-  SafeAreaView,
-  Text,
-  TextInput,
-  Dimensions,
-} from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, Button, View, Text } from "react-native";
+
 import { Col, Row, Grid } from "react-native-easy-grid";
-import { render } from "react-dom";
+
 let xValue;
 let yValue;
+let placementMaze = [];
 
 export default class Maze extends Component {
   constructor(props) {
@@ -20,27 +13,35 @@ export default class Maze extends Component {
     const { value } = this.props.route.params;
     xValue = Number(value.xValue);
     yValue = Number(value.yValue);
+
     let newMaze = this.setUpMaze();
     this.state = {
       maze: newMaze,
+      completed: false,
     };
     this.handlePress = this.handlePress.bind(this);
   }
   handlePress(x, y) {
     let oldState = this.state.maze;
     let currentPlace = oldState[y][x];
-    if (currentPlace === 1) {
-      oldState[y][x] = 0;
-      console.log(oldState);
-      this.setState({ maze: oldState });
-    } else {
+    if (currentPlace === 0) {
       oldState[y][x] = 1;
-      console.log(oldState);
+      placementMaze = JSON.parse(JSON.stringify(oldState));
+      let result = this.mazeSearch(0, 0);
       this.setState({ maze: oldState });
+
+      console.log(result);
+    } else {
+      oldState[y][x] = 0;
+      placementMaze = JSON.parse(JSON.stringify(oldState));
+      let result = this.mazeSearch(0, 0);
+      this.setState({ maze: oldState });
+      console.log(result);
     }
   }
 
   setUpMaze = () => {
+    console.log("setup maze is running");
     let maze = new Array(yValue);
     for (let i = 0; i < yValue; ++i) {
       maze[i] = new Array(xValue);
@@ -52,6 +53,39 @@ export default class Maze extends Component {
     }
     return maze;
   };
+
+  mazeSearch(x, y) {
+    console.log(x, y, xValue - 1, yValue - 1);
+    const targetX = xValue - 1;
+    const targetY = yValue - 1;
+    if (x === targetX && y === targetY) {
+      return true;
+    } else if (placementMaze[y][x] === 0) {
+      placementMaze[y][x] = 9;
+      if (x !== 0) {
+        // checks to see if the current x value is next to the left side
+        console.log("Moving right", placementMaze);
+        this.mazeSearch(x - 1, y);
+      }
+      if (x < placementMaze[0].length) {
+        // check to see if the current x value is on the right wall if not add one
+        console.log("Moving left", placementMaze);
+        this.mazeSearch(x + 1, y);
+      }
+      if (y !== 0) {
+        //checks to see if the value is on the top if not minus one from the y
+        console.log("Moving down", placementMaze);
+        this.mazeSearch(x, y - 1);
+      }
+      if (y < placementMaze.length) {
+        //checkst to see if the y value is on the bottom
+        console.log("Moving up", placementMaze);
+        this.mazeSearch(x, y + 1);
+      }
+    }
+    return false;
+  }
+
   render() {
     return (
       <Grid>
@@ -78,7 +112,6 @@ export default class Maze extends Component {
                     }}
                     key={key}
                     onPress={() => {
-                      console.log("checing cell", cell, "cell.cell", cell.cell);
                       this.handlePress(x, y);
                     }}
                   ></Row>
